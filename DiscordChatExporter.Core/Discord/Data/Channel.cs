@@ -34,6 +34,8 @@ namespace DiscordChatExporter.Core.Discord.Data
 
         public string? Topic { get; }
 
+        public Snowflake? LastMessageId { get; }
+
         public Channel(
             Snowflake id,
             ChannelKind kind,
@@ -41,7 +43,8 @@ namespace DiscordChatExporter.Core.Discord.Data
             ChannelCategory category,
             string name,
             int? position,
-            string? topic)
+            string? topic,
+            Snowflake? lastMessageId)
         {
             Id = id;
             Kind = kind;
@@ -50,6 +53,7 @@ namespace DiscordChatExporter.Core.Discord.Data
             Name = name;
             Position = position;
             Topic = topic;
+            LastMessageId = lastMessageId;
         }
 
         [ExcludeFromCodeCoverage]
@@ -78,6 +82,7 @@ namespace DiscordChatExporter.Core.Discord.Data
             var guildId = json.GetPropertyOrNull("guild_id")?.GetString().Pipe(Snowflake.Parse);
             var topic = json.GetPropertyOrNull("topic")?.GetString();
             var kind = (ChannelKind) json.GetProperty("type").GetInt32();
+            var lastMessageId = json.GetPropertyOrNull("last_message_id")?.GetString().Pipe(Snowflake.Parse);
 
             var name =
                 // Guild channel
@@ -94,7 +99,8 @@ namespace DiscordChatExporter.Core.Discord.Data
                 category ?? GetFallbackCategory(kind),
                 name,
                 position ?? json.GetPropertyOrNull("position")?.GetInt32(),
-                topic
+                topic,
+                lastMessageId
             );
         }
     }
