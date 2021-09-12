@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -63,7 +63,18 @@ namespace DiscordChatExporter.Core.Exporting
                 .FirstOrDefault();
         }
 
-        public async ValueTask<string> ResolveMediaUrlAsync(string url)
+        public enum MediaType
+        {
+            Avatar,
+            Attachment,
+            Embed,
+            EmbedThumbnail,
+            EmbedFooter,
+            GuildIcon,
+            Emoji,
+        }
+
+        public virtual async ValueTask<string> ResolveMediaUrlAsync(string url, MediaType type)
         {
             if (!Request.ShouldDownloadMedia)
                 return url;

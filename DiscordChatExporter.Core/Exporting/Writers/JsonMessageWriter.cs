@@ -35,7 +35,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteStartObject();
 
             _writer.WriteString("id", attachment.Id.ToString());
-            _writer.WriteString("url", await Context.ResolveMediaUrlAsync(attachment.Url));
+            _writer.WriteString("url", await Context.ResolveMediaUrlAsync(attachment.Url, ExportContext.MediaType.Attachment));
             _writer.WriteString("fileName", attachment.FileName);
             _writer.WriteNumber("fileSizeBytes", attachment.FileSize.TotalBytes);
 
@@ -51,7 +51,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteString("url", embedAuthor.Url);
 
             if (!string.IsNullOrWhiteSpace(embedAuthor.IconUrl))
-                _writer.WriteString("iconUrl", await Context.ResolveMediaUrlAsync(embedAuthor.IconProxyUrl ?? embedAuthor.IconUrl));
+                _writer.WriteString("iconUrl", await Context.ResolveMediaUrlAsync(embedAuthor.IconProxyUrl ?? embedAuthor.IconUrl, ExportContext.MediaType.Avatar));
 
             _writer.WriteEndObject();
             await _writer.FlushAsync();
@@ -62,7 +62,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteStartObject("thumbnail");
 
             if (!string.IsNullOrWhiteSpace(embedThumbnail.Url))
-                _writer.WriteString("url", await Context.ResolveMediaUrlAsync(embedThumbnail.ProxyUrl ?? embedThumbnail.Url));
+                _writer.WriteString("url", await Context.ResolveMediaUrlAsync(embedThumbnail.ProxyUrl ?? embedThumbnail.Url, ExportContext.MediaType.EmbedThumbnail));
 
             _writer.WriteNumber("width", embedThumbnail.Width);
             _writer.WriteNumber("height", embedThumbnail.Height);
@@ -76,7 +76,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteStartObject("image");
 
             if (!string.IsNullOrWhiteSpace(embedImage.Url))
-                _writer.WriteString("url", await Context.ResolveMediaUrlAsync(embedImage.ProxyUrl ?? embedImage.Url));
+                _writer.WriteString("url", await Context.ResolveMediaUrlAsync(embedImage.ProxyUrl ?? embedImage.Url, ExportContext.MediaType.Embed));
 
             _writer.WriteNumber("width", embedImage.Width);
             _writer.WriteNumber("height", embedImage.Height);
@@ -92,7 +92,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteString("text", embedFooter.Text);
 
             if (!string.IsNullOrWhiteSpace(embedFooter.IconUrl))
-                _writer.WriteString("iconUrl", await Context.ResolveMediaUrlAsync(embedFooter.IconProxyUrl ?? embedFooter.IconUrl));
+                _writer.WriteString("iconUrl", await Context.ResolveMediaUrlAsync(embedFooter.IconProxyUrl ?? embedFooter.IconUrl, ExportContext.MediaType.EmbedFooter));
 
             _writer.WriteEndObject();
             await _writer.FlushAsync();
@@ -155,7 +155,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteString("id", reaction.Emoji.Id);
             _writer.WriteString("name", reaction.Emoji.Name);
             _writer.WriteBoolean("isAnimated", reaction.Emoji.IsAnimated);
-            _writer.WriteString("imageUrl", await Context.ResolveMediaUrlAsync(reaction.Emoji.ImageUrl));
+            _writer.WriteString("imageUrl", await Context.ResolveMediaUrlAsync(reaction.Emoji.ImageUrl, ExportContext.MediaType.Emoji));
             _writer.WriteEndObject();
 
             _writer.WriteNumber("count", reaction.Count);
@@ -187,7 +187,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteStartObject("guild");
             _writer.WriteString("id", Context.Request.Guild.Id.ToString());
             _writer.WriteString("name", Context.Request.Guild.Name);
-            _writer.WriteString("iconUrl", await Context.ResolveMediaUrlAsync(Context.Request.Guild.IconUrl));
+            _writer.WriteString("iconUrl", await Context.ResolveMediaUrlAsync(Context.Request.Guild.IconUrl, ExportContext.MediaType.GuildIcon));
             _writer.WriteEndObject();
 
             // Channel
@@ -236,7 +236,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteString("nickname", Context.TryGetMember(message.Author.Id)?.Nick ?? message.Author.Name);
             _writer.WriteString("color", Context.TryGetUserColor(message.Author.Id)?.ToHex());
             _writer.WriteBoolean("isBot", message.Author.IsBot);
-            _writer.WriteString("avatarUrl", await Context.ResolveMediaUrlAsync(message.Author.AvatarUrl));
+            _writer.WriteString("avatarUrl", await Context.ResolveMediaUrlAsync(message.Author.AvatarUrl, ExportContext.MediaType.Avatar));
             _writer.WriteEndObject();
 
             // Attachments
