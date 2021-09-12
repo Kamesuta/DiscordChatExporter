@@ -14,7 +14,7 @@ namespace DiscordChatExporter.Cli.Commands.Base
 
         private static string EnvironmentToken { get; } = TokenGetter.GetTokenApp();
 
-        [CommandOption("token", 't', IsRequired = true, EnvironmentVariable = "DISCORD_TOKEN", Description = "Authentication token.")]
+        [CommandOption("token", 't', EnvironmentVariable = "DISCORD_TOKEN", Description = "Authentication token.")]
         public string TokenValue { get; init; } = "";
 
         [CommandOption("bot", 'b', EnvironmentVariable = "DISCORD_TOKEN_BOT", Description = "Authenticate as a bot.")]

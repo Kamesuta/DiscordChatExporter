@@ -86,7 +86,7 @@ namespace DiscordChatExporter.Core.Exporting
 
     internal partial class MediaDownloader
     {
-        private static string GetUrlHash(string url)
+        protected static string GetUrlHash(string url)
         {
             using var hash = SHA256.Create();
 
@@ -94,7 +94,7 @@ namespace DiscordChatExporter.Core.Exporting
             return data.ToHex().Truncate(5); // 5 chars ought to be enough for anybody
         }
 
-        private static string GetFileNameFromUrl(string url)
+        protected virtual string GetFileNameFromUrl(string url)
         {
             var urlHash = GetUrlHash(url);
 

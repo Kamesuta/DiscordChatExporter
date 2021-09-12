@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using CliFx.Attributes;
 using CliFx.Infrastructure;
@@ -38,7 +38,9 @@ namespace DiscordChatExporter.Cli.Commands
                         return false;
 
                     return true;
-                }).ToArray();
+                })
+                .OrderBy(c => c.LastMessageId)
+                .ToArray();
 
             // Export
             await ExportAsync(console, textChannels);

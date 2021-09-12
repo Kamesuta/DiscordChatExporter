@@ -8,6 +8,7 @@ using CliFx.Attributes;
 using CliFx.Exceptions;
 using CliFx.Infrastructure;
 using DiscordChatExporter.Cli.Utils.Extensions;
+using DiscordChatExporter.Core.Custom;
 using DiscordChatExporter.Core.Discord;
 using DiscordChatExporter.Core.Discord.Data;
 using DiscordChatExporter.Core.Exceptions;
@@ -51,12 +52,20 @@ namespace DiscordChatExporter.Cli.Commands.Base
         [CommandOption("dateformat", Description = "Format used when writing dates.")]
         public string DateFormat { get; init; } = "dd-MMM-yy hh:mm tt";
 
+        [CommandOption("only-image", Description = "Collect Images only.")]
+        public bool OnlyImages { get; init; } = true;
+
         private ChannelExporter? _channelExporter;
-        protected ChannelExporter Exporter => _channelExporter ??= new ChannelExporter(Discord);
+        protected ChannelExporter Exporter => _channelExporter ??= OnlyImages ? new CustomChannelExporter(Discord) : new ChannelExporter(Discord);
 
         protected async ValueTask ExportAsync(IConsole console, IReadOnlyList<Channel> channels)
         {
             await console.Output.WriteLineAsync($"Exporting {channels.Count} channel(s)...");
+
+            // 連番を割り振る
+            var channelIndex = 0;
+            foreach (var channel in channels)
+                channel.Index = ++channelIndex;
 
             var errors = new ConcurrentDictionary<Channel, string>();
 

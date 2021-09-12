@@ -62,7 +62,7 @@ namespace DiscordChatExporter.Core.Exporting.Writers
             _writer.WriteStartObject("thumbnail");
 
             if (!string.IsNullOrWhiteSpace(embedThumbnail.Url))
-                _writer.WriteString("url", await Context.ResolveMediaUrlAsync(embedThumbnail.ProxyUrl ?? embedThumbnail.Url, ExportContext.MediaType.EmbedThumbnail));
+                _writer.WriteString("url", await Context.ResolveMediaUrlAsync(embedThumbnail.ProxyUrl ?? embedThumbnail.Url, ExportContext.MediaType.Embed));
 
             _writer.WriteNumber("width", embedThumbnail.Width);
             _writer.WriteNumber("height", embedThumbnail.Height);

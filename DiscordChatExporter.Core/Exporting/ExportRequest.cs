@@ -18,7 +18,7 @@ namespace DiscordChatExporter.Core.Exporting
 
         public string OutputPath { get; }
 
-        public string OutputBaseFilePath { get; }
+        public string OutputBaseFilePath { get; set; }
 
         public string OutputBaseDirPath { get; }
 

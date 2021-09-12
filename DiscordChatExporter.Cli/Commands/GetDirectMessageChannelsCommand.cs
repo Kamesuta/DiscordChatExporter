@@ -18,7 +18,7 @@ namespace DiscordChatExporter.Cli.Commands
 
             var textChannels = channels
                 .Where(c => c.IsTextChannel)
-                .OrderBy(c => c.Category.Position)
+                .OrderBy(c => c.LastMessageId)
                 .ThenBy(c => c.Name)
                 .ToArray();
 

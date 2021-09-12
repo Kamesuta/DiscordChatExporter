@@ -12,13 +12,13 @@ namespace DiscordChatExporter.Core.Exporting
 {
     public class ChannelExporter
     {
-        private readonly DiscordClient _discord;
+        protected readonly DiscordClient _discord;
 
         public ChannelExporter(DiscordClient discord) => _discord = discord;
 
         public ChannelExporter(AuthToken token) : this(new DiscordClient(token)) {}
 
-        public async ValueTask ExportChannelAsync(ExportRequest request, IProgress<double>? progress = null)
+        public virtual async ValueTask ExportChannelAsync(ExportRequest request, IProgress<double>? progress = null)
         {
             // Build context
             var contextMembers = new HashSet<Member>(IdBasedEqualityComparer.Instance);

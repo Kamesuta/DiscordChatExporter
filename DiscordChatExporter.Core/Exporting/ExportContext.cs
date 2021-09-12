@@ -14,7 +14,7 @@ namespace DiscordChatExporter.Core.Exporting
 {
     internal class ExportContext
     {
-        private readonly MediaDownloader _mediaDownloader;
+        internal MediaDownloader _mediaDownloader;
 
         public ExportRequest Request { get; }
 

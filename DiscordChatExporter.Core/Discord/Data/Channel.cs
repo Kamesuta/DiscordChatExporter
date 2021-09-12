@@ -11,6 +11,8 @@ namespace DiscordChatExporter.Core.Discord.Data
     // https://discord.com/developers/docs/resources/channel#channel-object
     public partial class Channel : IHasId
     {
+        public int Index { get; set; } = 0;
+
         public Snowflake Id { get; }
 
         public ChannelKind Kind { get; }
